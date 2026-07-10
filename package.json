@@ -1,0 +1,13 @@
+{
+  "name": "thakol-ai-agents",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Downloadable AI-assistant agents/skills for integrating thakol.io authentication (OIDC/Keycloak).",
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "node build.mjs --check"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/thakol/thakol-ai-agents"
+}

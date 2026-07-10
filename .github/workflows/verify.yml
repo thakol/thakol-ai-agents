@@ -1,0 +1,19 @@
+name: verify
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  in-sync:
+    name: platform files in sync with shared source
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify every platform file matches shared/thakol-auth-agent.md
+        run: node build.mjs --check
+      - name: Lint the installer
+        run: sh -n install.sh
