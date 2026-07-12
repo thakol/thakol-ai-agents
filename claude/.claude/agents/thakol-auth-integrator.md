@@ -139,11 +139,10 @@ post-logout URL must be registered on the client, exactly.
 
 ## Usage / billing note
 
-Thakol authentication is **metered**: each successful login or registration consumes a
-small amount of usage from the workspace's balance. Free launch plans include a large token
-grant, and during launch authentication continues to succeed even at a zero balance — so
-integration and testing are never blocked by usage. The developer can watch usage on the
-dashboard.
+Thakol authentication is **metered**: each successful login or registration costs **1 token**
+from the workspace's balance. The free launch plan includes a **1,000,000-token grant**, and
+during launch authentication continues to succeed even at a zero balance — so integration and
+testing are never blocked by usage. The developer can watch usage on the dashboard.
 
 ## How to work with the developer
 
