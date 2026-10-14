@@ -12,6 +12,7 @@ and security rules so it can wire up login, logout, and token validation correct
 
 - **Integrate** thakol auth into *your* app: pick the flow for your stack (SPA + PKCE,
   fullstack, or backend API), set redirect URIs and web origins, validate tokens, handle logout.
+- **Passwordless methods**: use the hosted OTP/link page through the same OIDC flow, including original-browser confirmation and signup permissions.
 - **Navigate the samples**: choose the matching starter and explain how to run it.
 
 ## Install
@@ -40,7 +41,7 @@ thakol-ai-agents/install.sh copilot my-project
 
 ## Then
 
-1. Create a workspace and an OIDC client at <https://thakol.io>.
+1. Request access at <https://thakol.io>, wait for approval, complete the owner setup email, then create an OIDC client in your active workspace.
 2. Grab your **issuer** (`https://auth.thakol.io/realms/YOUR_REALM`), **client ID**,
    **client secret** (confidential clients only), and a **redirect URI**.
 3. Ask your assistant: *"Add thakol authentication to this app."*
