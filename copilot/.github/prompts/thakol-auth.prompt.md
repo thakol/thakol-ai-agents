@@ -66,9 +66,11 @@ and profile, show the email address, and require **Confirm sign-in**; GET/HEAD p
 in. If the app stores OIDC state per tab, use the original sign-in tab. Never log sign-in links,
 codes, callback codes or full tokens.
 
-Enrolled authenticator-app users are challenged after primary login. **Known rollout gap:** the
-workspace require-TOTP-for-every-user setting currently misses existing unenrolled application
-users. Confirm enrollment explicitly and check the latest roadmap before claiming universal MFA.
+With **Require it for every user** enabled, both existing and new application users must enroll
+an authenticator before the OIDC authorization code is issued; enrolled users enter TOTP after
+primary login. Enabling or repairing the policy ends existing application SSO sessions once.
+Optional MFA challenges enrolled users without forcing everyone to enroll. Test both cases;
+applications still enforce normal JWT expiration and revocation.
 Passkeys, SMS and guided SAML are planned, not supported options to fabricate in an integration.
 
 Guides: <https://thakol.io/docs/email-otp>, <https://thakol.io/docs/email-links>,
