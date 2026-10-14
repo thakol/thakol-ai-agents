@@ -38,13 +38,36 @@ Local development can point the issuer at a local Keycloak instead:
 
 ## Dashboard setup (do this first)
 
-1. **Create a workspace** at <https://thakol.io> — this provisions your realm.
+1. **Request workspace access** at <https://thakol.io>. Access is invitation-only/approval-gated; the request itself provisions nothing. Wait for platform approval, complete the owner setup email, then use the active workspace dashboard.
 2. **Create an OIDC client** for the app. Choose the client type by where the code runs:
    - **Public** client for browser-only SPAs (no secret; PKCE required).
    - **Confidential** client for anything with a server (has a secret).
 3. **Register the exact Redirect URI(s)** the app will use (and post-logout redirect URIs).
 4. For SPAs, **set Web Origins** to the app's origin for CORS (e.g. `http://localhost:3000`).
 5. **Copy the discovery URL**: `<ISSUER>/.well-known/openid-configuration`.
+
+## Hosted passwordless methods
+
+Workspace owners can enable **Email code (passwordless)** and **Email login link (passwordless)**
+under Settings → Advanced → Sign-In Methods. Codes and links have independent signup permissions;
+creating new application users additionally requires application self-registration. Email proof
+creates an application account only after successful verification, not a dashboard administrator.
+
+Use the same OIDC authorization redirect and callback for password, OTP and links. Do not build a
+separate passwordless token endpoint, collect a Thakol password/code in the app, forward a magic
+link to a backend, or remove PKCE/state checks. The hosted page handles the credential method.
+Codes and links expire after five minutes and are single-use. Links open in the original browser
+and profile, show the email address, and require **Confirm sign-in**; GET/HEAD previews do not log
+in. If the app stores OIDC state per tab, use the original sign-in tab. Never log sign-in links,
+codes, callback codes or full tokens.
+
+Enrolled authenticator-app users are challenged after primary login. **Known rollout gap:** the
+workspace require-TOTP-for-every-user setting currently misses existing unenrolled application
+users. Confirm enrollment explicitly and check the latest roadmap before claiming universal MFA.
+Passkeys, SMS and guided SAML are planned, not supported options to fabricate in an integration.
+
+Guides: <https://thakol.io/docs/email-otp>, <https://thakol.io/docs/email-links>,
+<https://thakol.io/roadmap>. Real inbox and client callback verification are rollout requirements.
 
 ## Endpoints
 
@@ -132,10 +155,10 @@ post-logout URL must be registered on the client, exactly.
 
 ## Usage / billing note
 
-Thakol authentication is **metered**: each successful login or registration costs **1 token**
+Thakol records successful LOGIN/REGISTER events as **1 usage token** each
 from the workspace's balance. The free launch plan includes a **1,000,000-token grant**, and
 during launch authentication continues to succeed even at a zero balance — so integration and
-testing are never blocked by usage. The developer can watch usage on the dashboard.
+testing are never blocked by usage. The developer can watch usage on the dashboard. Sends, resends, failed proofs and link previews do not count as successful authentication. Delivery is currently best effort; do not implement paid-billing guarantees from this counter.
 
 ## How to work with the developer
 
@@ -145,6 +168,6 @@ testing are never blocked by usage. The developer can watch usage on the dashboa
 3. Point them at the matching sample; mirror its structure in their app.
 4. Put secrets in environment variables, never in source or client bundles.
 5. Register the redirect URI(s) and web origins in the dashboard, exactly.
-6. Verify end to end: login → callback → session/token → protected resource → logout.
+6. Verify end to end: login → callback → session/token → protected resource → logout. For passwordless, also test controlled-inbox delivery, invalid/expired proof, link confirmation/replay and recovery. Test both enrolled and unenrolled users if MFA is required.
 
 <!-- END:thakol-core -->
