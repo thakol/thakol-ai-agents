@@ -47,6 +47,27 @@ Local development can point the issuer at a local Keycloak instead:
 4. For SPAs, **set Web Origins** to the app's origin for CORS (e.g. `http://localhost:3000`).
 5. **Copy the discovery URL**: `<ISSUER>/.well-known/openid-configuration`.
 
+## Managed social login and CAPTCHA
+
+Workspace owners configure each provider under **Login & Bot Protection**: disabled, Thakol
+platform default, or customer-owned credentials. CAPTCHA has the same three modes, using
+reCAPTCHA v3. Customer keys must cover the authentication hostname. Existing overrides and
+explicit disabled choices are preserved; new realms inherit available platform defaults.
+Available provider factories are checked server-side. Apple needs an additional provider installation.
+
+Applications retain their own customer realm issuer, client and callback; never switch an app
+issuer to `thakol-social-*`. Platform social secrets and CAPTCHA secrets never belong in app
+code, browser storage or sample environment files. The hosted login handles these credentials.
+Use `kc_idp_hint=google` (or another configured alias) only as a navigation hint through the OIDC
+library; it does not enforce a provider restriction. Preserve state, nonce and PKCE validation.
+Mandatory customer MFA applies after social sign-in as well.
+
+Thakol uses one dedicated shared broker per managed provider, with one stable upstream callback
+and a separate confidential S256 client per customer. Customer application accounts and sessions
+remain separate, while the upstream broker identity may be shared. Do not promise that deleting
+one application user erases that broker identity from all customers. Platform-wide erasure needs
+verified operator handling. Setup: https://thakol.io/docs/managed-auth.
+
 ## Hosted passwordless methods
 
 Workspace owners can enable **Email code (passwordless)** and **Email login link (passwordless)**

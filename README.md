@@ -73,3 +73,5 @@ CI (`.github/workflows/verify.yml`) enforces that the platform files stay in syn
 ## License
 
 MIT — see [LICENSE](./LICENSE).
+
+Managed social login and reCAPTCHA support Thakol defaults, customer-owned credentials, and disabled mode. The generated guides explain configuration, shared broker identities, mandatory MFA, and unchanged customer OIDC issuers. See [setup](https://thakol.io/docs/managed-auth).
