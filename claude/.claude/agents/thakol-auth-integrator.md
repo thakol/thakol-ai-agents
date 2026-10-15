@@ -75,7 +75,14 @@ Optional MFA challenges enrolled users without forcing everyone to enroll. Test 
 applications still enforce normal JWT expiration and revocation.
 Passkeys, SMS and guided SAML are planned, not supported options to fabricate in an integration.
 
-Guides: <https://thakol.io/docs/email-otp>, <https://thakol.io/docs/email-links>,
+For missing authentication emails, use **Dashboard → Email Delivery** with a workspace
+administrator/member session; this is separate from the application's OIDC user session.
+The scoped log shows Send, Delivery, Bounce, Complaint, Reject and DeliveryDelay events.
+Delivery means the receiving mail server accepted the message, not that a person opened it.
+No event can also mean SMTP failed before the service accepted the message. Do not collect
+SMTP credentials in the client app or log codes/links to diagnose delivery.
+
+Guides: <https://thakol.io/docs/email-delivery>, <https://thakol.io/docs/email-otp>, <https://thakol.io/docs/email-links>,
 <https://thakol.io/roadmap>. Real inbox and client callback verification are rollout requirements.
 
 ## Endpoints
